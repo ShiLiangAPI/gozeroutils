@@ -17,6 +17,7 @@ type InitData struct {
 	NoPage      bool
 	CurrentPage int
 	PageSize    int
+	PageField   string
 	// 用于数据处理
 	Order       string
 	OrderList   []string

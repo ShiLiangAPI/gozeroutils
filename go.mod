@@ -11,7 +11,7 @@ require (
 )
 
 require (
-	github.com/ShiLiangAPI/goutils v0.0.2 // indirect
+	github.com/ShiLiangAPI/goutils v0.0.3 // indirect
 	github.com/fatih/color v1.15.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect

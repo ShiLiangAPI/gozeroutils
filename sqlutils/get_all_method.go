@@ -24,7 +24,12 @@ func (in InitData) GetPageObject() (resp map[string]any, err error) {
 	if err = in.query.Find(in.RespObjList).Error; err != nil {
 		return nil, err
 	}
-	pageMap["list"] = in.RespObjList
+	if in.PageField == "" || in.PageField == "list" {
+		pageMap["list"] = in.RespObjList
+	} else {
+		pageMap[in.PageField] = in.RespObjList
+	}
+
 	return pageMap, nil
 }
 
@@ -42,7 +47,14 @@ func (in InitData) GetAllObject() (resp map[string]any, err error) {
 	if err = in.query.Find(in.RespObjList).Error; err != nil {
 		return nil, err
 	}
-	return map[string]any{"list": in.RespObjList}, nil
+	var pageMap map[string]any
+	if in.PageField == "" || in.PageField == "list" {
+		pageMap = map[string]any{"list": in.RespObjList}
+	} else {
+		pageMap = map[string]any{in.PageField: in.RespObjList}
+	}
+
+	return pageMap, nil
 }
 
 // GetTreeObject
