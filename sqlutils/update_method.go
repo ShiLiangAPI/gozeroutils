@@ -82,10 +82,9 @@ func (in InitData) UpdateFilterObject() (err error) {
 	return nil
 }
 
-// UpdateRelationObject T 关联的类型
-// mapValue = {"id/pk": "post_id", "update_id": "user_id", "filter_field": "PostID", "update_field": "UserID"}
+// UpdateRelationObject 关联修改
 func (in InitData) UpdateRelationObject() (err error) {
-	if in.PK == 0 {
+	if in.PK == "" {
 		return errors.New("PK 参数不能为空")
 	}
 	if in.PKList == nil {
@@ -107,14 +106,14 @@ func (in InitData) UpdateRelationObject() (err error) {
 	}
 
 	in.query = in.getQuerySet()
-	var activeIDList []int64
-	var addingIDList []int64
-	var deletingIDList []int64
+	var activeIDList []string
+	var addingIDList []string
+	var deletingIDList []string
 	if err := in.query.Where("id = ?", in.PK).Pluck(in.UpdateField, &activeIDList).Error; err != nil {
 		return err
 	}
-	addingIDList = function.Different[int64](in.PKList, activeIDList)
-	deletingIDList = function.Different[int64](activeIDList, in.PKList)
+	addingIDList = function.Different[string](in.PKList, activeIDList)
+	deletingIDList = function.Different[string](activeIDList, in.PKList)
 	if len(deletingIDList) > 0 {
 		if err = in.query.Unscoped().Where(deletingIDList).Delete(modelType).Error; err != nil {
 			return err
@@ -125,8 +124,8 @@ func (in InitData) UpdateRelationObject() (err error) {
 
 		for _, value := range addingIDList {
 			modelReflect := reflect.ValueOf(modelType).Elem()
-			modelReflect.FieldByName(in.FilterField).SetInt(in.PK)
-			modelReflect.FieldByName(in.UpdateField).SetInt(value)
+			modelReflect.FieldByName(in.FilterField).SetString(in.PK)
+			modelReflect.FieldByName(in.UpdateField).SetString(value)
 			relationList = append(relationList, modelType)
 		}
 		if err = in.query.CreateInBatches(relationList, len(relationList)).Error; err != nil {

@@ -88,7 +88,7 @@ func (in InitData) GetAllObject() (resp map[string]any, err error) {
 // GetRelationObject
 // mapValue=mapValue = {"id/pk": "post_id", "filter_id": "user_id", "where": {}， "filter_where": {}}
 func (in InitData) GetRelationObject() error {
-	if in.PK == 0 {
+	if in.PK == "" {
 		return errors.New("PK 参数不能为空")
 	}
 	if in.RelationField == "" {
@@ -100,7 +100,7 @@ func (in InitData) GetRelationObject() error {
 	in.query = in.getQuerySet()
 	querySet := in.filterData()
 
-	var IDList []int64
+	var IDList []string
 	querySet.Where("id = ?", in.PK).Pluck(in.RelationField, &IDList)
 
 	if len(IDList) > 0 {

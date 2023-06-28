@@ -12,7 +12,7 @@ func (in InitData) GetObject() (err error) {
 	if in.DB == nil {
 		return errors.New("DB 参数不能为空")
 	}
-	if in.PK == 0 {
+	if in.PK == "" {
 		return errors.New("PK 参数不能为空")
 	}
 	if in.RespObj == nil {

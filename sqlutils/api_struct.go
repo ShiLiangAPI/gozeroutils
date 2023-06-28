@@ -8,8 +8,8 @@ type InitData struct {
 	DB          *gorm.DB
 	Model       any    // 模型，建议使用RespObj
 	Table       string // 表名，建议使用RespObj
-	PK          int64
-	PKList      []int64
+	PK          string
+	PKList      []string
 	ReqObj      any
 	RespObj     any
 	RespObjList any
@@ -24,7 +24,7 @@ type InitData struct {
 	PreloadList []string
 	Where       map[string]any
 	// 用于查询树形列表
-	NodeId int64
+	NodeId string
 	// 用于关联查询
 	RelationField string
 	RelationObj   any

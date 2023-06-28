@@ -13,7 +13,7 @@ func (in InitData) DeleteOneObject() (err error) {
 	if in.RespObj == nil {
 		return errors.New("RespObj 参数不能为空")
 	}
-	if in.PK == 0 {
+	if in.PK == "" {
 		return errors.New("PK 参数不能为空")
 	}
 	if err = in.GetObject(); err != nil {
@@ -78,7 +78,7 @@ func (in InitData) DeleteTreeObject() (err error) {
 		}
 
 		parentIDList := in.PKList
-		in.PKList = []int64{}
+		in.PKList = []string{}
 
 		if err = in.query.Where("parent_id IN (?)", parentIDList).Pluck("id", &in.PKList).Error; err != nil {
 			return err
