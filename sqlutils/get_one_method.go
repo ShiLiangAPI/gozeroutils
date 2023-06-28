@@ -1,4 +1,4 @@
-package utils
+package sqlutils
 
 import (
 	"github.com/pkg/errors"
